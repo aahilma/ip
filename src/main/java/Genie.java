@@ -8,6 +8,8 @@ public class Genie {
 
         Scanner scanner = new Scanner(System.in);
         String userInput;
+        String[] h = new String[100];
+        int count = 0;
 
         while(true) {
             userInput = scanner.nextLine();
@@ -16,8 +18,21 @@ public class Genie {
                 break;
             }
 
+            if (userInput.equalsIgnoreCase("list")) {
+                for (int i = 0; i < count; i++) {
+                    System.out.println("     " + (i + 1) + ". " + h[i]);
+                }
+                System.out.println("\n");
+                continue;
+            }
 
-            System.out.println("Genie says: " + userInput);
+
+
+            h[count] = userInput;
+            count++;
+
+
+            System.out.println("Genie added: " + userInput);
             System.out.println("\n");
 
         }
