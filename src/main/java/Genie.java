@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 
 public class Genie {
@@ -11,7 +12,7 @@ public class Genie {
         Scanner scanner = new Scanner(System.in);
 
 
-        Task[] tasks = new Task[100];
+        ArrayList<Task> tasks = new ArrayList<>();
         int count = 0;
 
         while(true) {
@@ -28,20 +29,20 @@ public class Genie {
             } else if (userInput.equalsIgnoreCase("list")) {
                 System.out.println("     Here are your tasks:");
                 for (int i = 0; i < count; i++) {
-                    System.out.println("     " + (i + 1) + "." + tasks[i].toString());
+                    System.out.println("     " + (i + 1) + "." + tasks.get(i).toString());
                 }
 
             } else if (commands[0].equalsIgnoreCase("mark")) {
                 int i = Integer.parseInt(commands[1]) - 1;
-                tasks[i].markAsDone();
+                tasks.get(i).markAsDone();
                 System.out.println("     Nice! I have marked this task as done:\n");
-                System.out.println("    " + tasks[i].toString());
+                System.out.println("    " + tasks.get(i).toString());
             }
             else if (commands[0].equalsIgnoreCase("unmark")) {
                 int i = Integer.parseInt(commands[1]) - 1;
-                tasks[i].markAsUndone();
+                tasks.get(i).markAsUndone();
                 System.out.println("     Nice! I have marked this task as undone:\n");
-                System.out.println("    " + tasks[i].toString());
+                System.out.println("    " + tasks.get(i).toString());
             }
             else if (commands[0].equalsIgnoreCase("todo")) {
 
@@ -51,10 +52,13 @@ public class Genie {
                 }
 
                 String description = userInput.substring(5).trim();
-                tasks[count++] = new ToDo(description);
+                ToDo temp = new ToDo(description);
+                tasks.add(temp);
+                count++;
+
 
                 System.out.println("     Got it. I've added this task:");
-                System.out.println("       " + tasks[count - 1].toString());
+                System.out.println("       " + tasks.get(count - 1).toString());
                 System.out.println("     Now you have " + count + " tasks in the list.");
             }
             else if (commands[0].equalsIgnoreCase("deadline")) {
@@ -70,10 +74,12 @@ public class Genie {
                 String description = parts[0];
                 String by = parts[1];
 
-                tasks[count++] = new Deadline(description, by);
+                Deadline temp = new Deadline(description, by);
+                tasks.add(temp);
+                count++;
 
                 System.out.println("     Got it. I've added this task:");
-                System.out.println("       " + tasks[count - 1].toString());
+                System.out.println("       " + tasks.get(count - 1).toString());
                 System.out.println("     Now you have " + count + " tasks in the list.");
 
             }
@@ -94,10 +100,28 @@ public class Genie {
                 String from = timeParts[0];
                 String to = timeParts[1];
 
-                tasks[count++] = new Event(description, from, to);
+                Event temp = new Event(description, from, to);
+                tasks.add(temp);
+                count++;
 
                 System.out.println("     Got it. I've added this task:");
-                System.out.println("       " + tasks[count - 1].toString());
+                System.out.println("       " + tasks.get(count - 1).toString());
+                System.out.println("     Now you have " + count + " tasks in the list.");
+            }
+            else if (commands[0].equalsIgnoreCase("delete")) {
+                if (commands.length == 1) {
+                    System.out.println("     OOPS!!! Please provide the task number to delete.");
+                    continue;
+                }
+
+
+                int index = Integer.parseInt(commands[1]) - 1;
+                Task removedTask = tasks.remove(index);
+                count--;
+
+
+                System.out.println("     Noted. I've removed this task:");
+                System.out.println("       " + removedTask.toString());
                 System.out.println("     Now you have " + count + " tasks in the list.");
             }
             else {
