@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 
 /**
@@ -15,6 +19,10 @@ import java.io.IOException;
 
 public class Genie {
     public static final String FILE_PATH = "./data/genie.txt";
+    public static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
+    public static final DateTimeFormatter OUTPUT_FORMAT = DateTimeFormatter.ofPattern("MMM d yyyy, h:mm a");
+    public static final DateTimeFormatter DATE_ONLY_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy");
+// ...
 
     /**
      * Starts the chatbot application, loads existing tasks, and processes user commands.
@@ -89,20 +97,22 @@ public class Genie {
                 }
 
                 String info = userInput.substring(9).trim();
-
-
                 String[] parts = info.split(" /by ");
-                String description = parts[0];
-                String by = parts[1];
 
-                Deadline temp = new Deadline(description, by);
-                tasks.add(temp);
-                count++;
-                saveTasks(tasks);
+                try {
+                    String description = parts[0];
+                    LocalDateTime by = LocalDateTime.parse(parts[1].trim(), INPUT_FORMAT);
 
-                System.out.println("     Got it. I've added this task:");
-                System.out.println("       " + tasks.get(count - 1).toString());
-                System.out.println("     Now you have " + count + " tasks in the list.");
+                    Deadline temp = new Deadline(description, by);
+                    tasks.add(temp);
+                    saveTasks(tasks);
+
+                    System.out.println("     Got it. I've added this task:");
+                    System.out.println("       " + tasks.get(tasks.size() - 1).toString());
+                    System.out.println("     Now you have " + tasks.size() + " tasks in the list.");
+                } catch (DateTimeParseException e) {
+                    System.out.println("     OOPS!!! Please use the format: d/M/yyyy HHmm (e.g., 2/12/2019 1800)");
+                }
 
             } else if (commands[0].equalsIgnoreCase("event")) {
                 if (commands.length == 1) {
@@ -111,24 +121,25 @@ public class Genie {
                 }
 
                 String info = userInput.substring(6).trim();
-
-
                 String[] parts = info.split(" /from ");
-                String description = parts[0];
 
+                try {
+                    String description = parts[0];
+                    String[] timeParts = parts[1].split(" /to ");
+                    LocalDateTime from = LocalDateTime.parse(timeParts[0].trim(), INPUT_FORMAT);
+                    LocalDateTime to = LocalDateTime.parse(timeParts[1].trim(), INPUT_FORMAT);
 
-                String[] timeParts = parts[1].split(" /to ");
-                String from = timeParts[0];
-                String to = timeParts[1];
+                    Event temp = new Event(description, from, to);
+                    tasks.add(temp);
+                    saveTasks(tasks);
 
-                Event temp = new Event(description, from, to);
-                tasks.add(temp);
-                count++;
-                saveTasks(tasks);
+                    System.out.println("     Got it. I've added this task:");
+                    System.out.println("       " + tasks.get(tasks.size() - 1).toString());
+                    System.out.println("     Now you have " + tasks.size() + " tasks in the list.");
+                } catch (DateTimeParseException e) {
+                    System.out.println("     OOPS!!! Please use the format: d/M/yyyy HHmm (e.g., 2/12/2019 1800)");
+                }
 
-                System.out.println("     Got it. I've added this task:");
-                System.out.println("       " + tasks.get(count - 1).toString());
-                System.out.println("     Now you have " + count + " tasks in the list.");
             } else if (commands[0].equalsIgnoreCase("delete")) {
                 if (commands.length == 1) {
                     System.out.println("     OOPS!!! Please provide the task number to delete.");
@@ -207,9 +218,12 @@ public class Genie {
                 if (type.equals("T")) {
                     t = new ToDo(description);
                 } else if (type.equals("D")) {
-                    t = new Deadline(description, parts[3]);
+                    LocalDateTime by = LocalDateTime.parse(parts[3], INPUT_FORMAT);
+                    t = new Deadline(description, by);
                 } else if (type.equals("E")) {
-                    t = new Event(description, parts[3], parts[4]);
+                    LocalDateTime from = LocalDateTime.parse(parts[3], INPUT_FORMAT);
+                    LocalDateTime to = LocalDateTime.parse(parts[4], INPUT_FORMAT);
+                    t = new Event(description, from, to);
                 }
 
                 if (t != null) {
@@ -313,57 +327,62 @@ class ToDo extends Task {
  * Represents a task that starts at a specific time and ends at a specific time.
  */
 class Event extends Task {
-    protected String from;
-    protected String to;
+    protected LocalDateTime from;
+    protected LocalDateTime to;
 
     /**
      * Initializes a new Event task.
      *
      * @param description Description of the event.
-     * @param from Start date or time of the event.
-     * @param to End date or time of the event.
+     * @param from        Start date or time of the event.
+     * @param to          End date or time of the event.
      */
-    public Event(String description, String from, String to) {
+    public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
         this.from = from;
         this.to = to;
     }
 
+    public LocalDateTime getFromDate() {
+        return this.from;
+    }
+
     @Override
     public String toFileFormat() {
-        return "E | " + super.toFileFormat() + " | " + from + " | " + to;
+        return "E | " + super.toFileFormat() + " | " + from.format(Genie.INPUT_FORMAT) + " | " + to.format(Genie.INPUT_FORMAT);
     }
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + from + " to: " + to + ")";
+        return "[E]" + super.toString() + " (from: " + from.format(Genie.OUTPUT_FORMAT) + " to: " + to.format(Genie.OUTPUT_FORMAT) + ")";
     }
 }
-
-/**
- * Represents a task that needs to be done before a specific date or time.
- */
-class Deadline extends Task {
-    protected String by;
 
     /**
-     * Initializes a new Deadline task.
-     *
-     * @param description Description of the deadline.
-     * @param by The deadline date or time.
+     * Represents a task that needs to be done before a specific date or time.
      */
-    public Deadline(String description, String by) {
-        super(description);
-        this.by = by;
+    class Deadline extends Task {
+        protected LocalDateTime by;
+
+        /**
+         * Initializes a new Deadline task.
+         *
+         * @param description Description of the deadline.
+         * @param by          The deadline date or time.
+         */
+        public Deadline(String description, LocalDateTime by) {
+            super(description);
+            this.by = by;
+        }
+
+        @Override
+        public String toFileFormat() {
+            return "D | " + super.toFileFormat() + " | " + by.format(Genie.INPUT_FORMAT);
+        }
+
+        @Override
+        public String toString() {
+            return "[D]" + super.toString() + " (by: " + by.format(Genie.OUTPUT_FORMAT) + ")";
+        }
     }
 
-    @Override
-    public String toFileFormat() {
-        return "D | " + super.toFileFormat() + " | " + by;
-    }
-
-    @Override
-    public String toString() {
-        return "[D]" + super.toString() + " (by: " + by + ")";
-    }
-}
