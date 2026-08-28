@@ -1,19 +1,24 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 
 public class Genie {
+    public static final String FILE_PATH = "./data/genie.txt";
     public static void main(String[] args) {
+
         String divider = "    ____________________________________________________________";
         System.out.println(divider);
         System.out.println("     Hello! I'm Genie\n     What can I do for you?");
         System.out.println(divider);
 
         Scanner scanner = new Scanner(System.in);
-
-
         ArrayList<Task> tasks = new ArrayList<>();
         int count = 0;
+
+        loadTasks(tasks);
 
         while(true) {
             String userInput = scanner.nextLine();
@@ -35,12 +40,14 @@ public class Genie {
             } else if (commands[0].equalsIgnoreCase("mark")) {
                 int i = Integer.parseInt(commands[1]) - 1;
                 tasks.get(i).markAsDone();
+                saveTasks(tasks);
                 System.out.println("     Nice! I have marked this task as done:\n");
                 System.out.println("    " + tasks.get(i).toString());
             }
             else if (commands[0].equalsIgnoreCase("unmark")) {
                 int i = Integer.parseInt(commands[1]) - 1;
                 tasks.get(i).markAsUndone();
+                saveTasks(tasks);
                 System.out.println("     Nice! I have marked this task as undone:\n");
                 System.out.println("    " + tasks.get(i).toString());
             }
@@ -55,6 +62,7 @@ public class Genie {
                 ToDo temp = new ToDo(description);
                 tasks.add(temp);
                 count++;
+                saveTasks(tasks);
 
 
                 System.out.println("     Got it. I've added this task:");
@@ -77,6 +85,7 @@ public class Genie {
                 Deadline temp = new Deadline(description, by);
                 tasks.add(temp);
                 count++;
+                saveTasks(tasks);
 
                 System.out.println("     Got it. I've added this task:");
                 System.out.println("       " + tasks.get(count - 1).toString());
@@ -103,6 +112,7 @@ public class Genie {
                 Event temp = new Event(description, from, to);
                 tasks.add(temp);
                 count++;
+                saveTasks(tasks);
 
                 System.out.println("     Got it. I've added this task:");
                 System.out.println("       " + tasks.get(count - 1).toString());
@@ -118,6 +128,7 @@ public class Genie {
                 int index = Integer.parseInt(commands[1]) - 1;
                 Task removedTask = tasks.remove(index);
                 count--;
+                saveTasks(tasks);
 
 
                 System.out.println("     Noted. I've removed this task:");
@@ -134,8 +145,67 @@ public class Genie {
         }
         scanner.close();
     }
+    private static void saveTasks(ArrayList<Task> tasks) {
+        try {
+            // Ensure the directory exists before writing
+            File dir = new File("./data");
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+
+            FileWriter fw = new FileWriter(FILE_PATH);
+            for (Task t : tasks) {
+                fw.write(t.toFileFormat() + System.lineSeparator());
+            }
+            fw.close();
+        } catch (IOException e) {
+            System.out.println("     Error saving tasks: " + e.getMessage());
+        }
+    }
+
+    private static void loadTasks(ArrayList<Task> tasks) {
+        try {
+            File f = new File(FILE_PATH);
+            if (!f.exists()) {
+                return; // If the file doesn't exist yet, simply return an empty list
+            }
+
+            Scanner fileScanner = new Scanner(f);
+            while (fileScanner.hasNext()) {
+                String line = fileScanner.nextLine();
+
+                // Using regex " \\| " to split exactly by the pipe character and surrounding spaces
+                String[] parts = line.split(" \\| ");
+                String type = parts[0];
+                boolean isDone = parts[1].equals("1");
+                String description = parts[2];
+
+                Task t = null;
+
+                if (type.equals("T")) {
+                    t = new ToDo(description);
+                } else if (type.equals("D")) {
+                    t = new Deadline(description, parts[3]);
+                } else if (type.equals("E")) {
+                    t = new Event(description, parts[3], parts[4]);
+                }
+
+                if (t != null) {
+                    if (isDone) {
+                        t.markAsDone();
+                    }
+                    tasks.add(t);
+                }
+            }
+            fileScanner.close();
+        } catch (Exception e) {
+            System.out.println("     Error loading file: " + e.getMessage());
+        }
+    }
 
 }
+
+
 
 
 class Task {
@@ -163,6 +233,10 @@ class Task {
         return this.description;
     }
 
+    public String toFileFormat() {
+        return (isDone ? "1" : "0") + " | " + description;
+    }
+
     @Override
     public String toString() {
         return getStatusIcon() + " " + description;
@@ -172,6 +246,11 @@ class Task {
 class ToDo extends Task {
     public ToDo(String description) {
         super(description);
+    }
+
+    @Override
+    public String toFileFormat() {
+        return "T | " + super.toFileFormat();
     }
 
     @Override
@@ -191,6 +270,11 @@ class Event extends Task {
     }
 
     @Override
+    public String toFileFormat() {
+        return "E | " + super.toFileFormat() + " | " + from + " | " + to;
+    }
+
+    @Override
     public String toString() {
         return "[E]" + super.toString() + " (from: " + from + " to: " + to + ")";
     }
@@ -203,6 +287,11 @@ class Deadline extends Task {
     public Deadline(String description, String by) {
         super(description);
         this.by = by;
+    }
+
+    @Override
+    public String toFileFormat() {
+        return "D | " + super.toFileFormat() + " | " + by;
     }
 
     @Override
