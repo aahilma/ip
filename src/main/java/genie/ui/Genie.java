@@ -1,4 +1,4 @@
-package genie;
+package genie.ui;
 
 
 import java.util.Scanner;
