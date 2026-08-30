@@ -151,6 +151,30 @@ public class Genie {
                 System.out.println("     Noted. I've removed this task:");
                 System.out.println("       " + removedTask.toString());
                 System.out.println("     Now you have " + tasks.size() + " tasks in the list.");
+            } else if (commands[0].equalsIgnoreCase("find")) {
+                if (commands.length == 1) {
+                    System.out.println("     OOPS!!! Please provide a keyword to search for.");
+                    continue;
+                }
+
+                String keyword = userInput.substring("find".length()).trim();
+
+                System.out.println("     Here are the matching tasks in your list:");
+
+                int matchCount = 0;
+                for (int i = 0; i < tasks.size(); i++) {
+                    Task currentTask = tasks.get(i);
+                    // Check if the task's description contains the keyword
+                    if (currentTask.getName().contains(keyword)) {
+                        matchCount++;
+                        System.out.println("     " + matchCount + "." + currentTask.toString());
+                    }
+                }
+
+                if (matchCount == 0) {
+                    System.out.println("     No tasks matched your search.");
+                }
+
             } else {
                 System.out.println("     OOPS!!! I'm sorry, but I don't know what that means :-(");
             }
@@ -280,10 +304,10 @@ class Event extends Task {
     }
 }
 
-    /**
-     * Represents a task that needs to be done before a specific date or time.
-     */
-    class Deadline extends Task {
+/**
+ * Represents a task that needs to be done before a specific date or time.
+ */
+class Deadline extends Task {
         protected LocalDateTime by;
 
         /**
