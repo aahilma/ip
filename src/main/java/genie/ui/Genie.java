@@ -1,14 +1,14 @@
 package genie.ui;
 
 
-import java.util.Scanner;
-import java.util.ArrayList;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 
 /**
@@ -21,7 +21,7 @@ public class Genie {
     public static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
     public static final DateTimeFormatter OUTPUT_FORMAT = DateTimeFormatter.ofPattern("MMM d yyyy, h:mm a");
     public static final DateTimeFormatter DATE_ONLY_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy");
-// ...
+    // ...
 
     /**
      * Starts the chatbot application, loads existing tasks, and processes user commands.
@@ -295,12 +295,14 @@ class Event extends Task {
 
     @Override
     public String toFileFormat() {
-        return "E | " + super.toFileFormat() + " | " + from.format(Genie.INPUT_FORMAT) + " | " + to.format(Genie.INPUT_FORMAT);
+        return "E | " + super.toFileFormat() + " | " + from.format(Genie.INPUT_FORMAT)
+                + " | " + to.format(Genie.INPUT_FORMAT);
     }
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + from.format(Genie.OUTPUT_FORMAT) + " to: " + to.format(Genie.OUTPUT_FORMAT) + ")";
+        return "[E]" + super.toString() + " (from: " + from.format(Genie.OUTPUT_FORMAT)
+                + " to: " + to.format(Genie.OUTPUT_FORMAT) + ")";
     }
 }
 
@@ -308,29 +310,29 @@ class Event extends Task {
  * Represents a task that needs to be done before a specific date or time.
  */
 class Deadline extends Task {
-        protected LocalDateTime by;
+    protected LocalDateTime by;
 
-        /**
-         * Initializes a new Deadline task.
-         *
-         * @param description Description of the deadline.
-         * @param by          The deadline date or time.
-         */
-        public Deadline(String description, LocalDateTime by) {
-            super(description);
-            this.by = by;
-        }
-
-        @Override
-        public String toFileFormat() {
-            return "D | " + super.toFileFormat() + " | " + by.format(Genie.INPUT_FORMAT);
-        }
-
-        @Override
-        public String toString() {
-            return "[D]" + super.toString() + " (by: " + by.format(Genie.OUTPUT_FORMAT) + ")";
-        }
+    /**
+     * Initializes a new Deadline task.
+     *
+     * @param description Description of the deadline.
+     * @param by          The deadline date or time.
+     */
+    public Deadline(String description, LocalDateTime by) {
+        super(description);
+        this.by = by;
     }
+
+    @Override
+    public String toFileFormat() {
+        return "D | " + super.toFileFormat() + " | " + by.format(Genie.INPUT_FORMAT);
+    }
+
+    @Override
+    public String toString() {
+        return "[D]" + super.toString() + " (by: " + by.format(Genie.OUTPUT_FORMAT) + ")";
+    }
+}
 
 /**
  * Deals with loading tasks from the file and saving tasks in the file.
@@ -417,4 +419,3 @@ class Storage {
         }
     }
 }
-
