@@ -1,25 +1,36 @@
 .root {
-    main-color: rgb(237, 255, 242);
+    main-color: #312c51;
+    secondary-color: #48426d;
+    accent-color: #f0c38e;
+    highlight-color: #f1aa9b;
     -fx-background-color: main-color;
 }
 
 .text-field {
-    -fx-background-color: #d9ffe2;
+    -fx-background-color: secondary-color;
+    -fx-background-radius: 10px 0 0 10px;
+    -fx-border-color: accent-color;
+    -fx-border-width: 2px 0 2px 2px;
+    -fx-border-radius: 10px 0 0 10px;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #d8d4e7;
     -fx-font: 20px "Arial";
 }
 
 .button {
-    -fx-background-color: mediumspringgreen;
+    -fx-background-color: accent-color;
+    -fx-text-fill: main-color;
+    -fx-background-radius: 0 10px 10px 0;
     -fx-font: italic bold 16px "Arial";
 }
 
 .button:hover {
-    -fx-background-color: cyan;
+    -fx-background-color: highlight-color;
     -fx-font-size: 18px;
 }
 
 .button:pressed {
-    -fx-background-color: orange;
+    -fx-background-color: accent-color;
     -fx-font-size: 20px;
 }
 
@@ -30,11 +41,11 @@
 
 .scroll-bar {
     -fx-font-size: 10px;
-    -fx-background-color: main-color;
+    -fx-background-color: secondary-color;
 }
 
 .scroll-bar .thumb {
-    -fx-background-color: #ff9cb4;
+    -fx-background-color: highlight-color;
     -fx-background-radius: 1em;
 }
 

@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Circle;
 
 /** A reusable chat bubble for a user or Genie message. */
 public class DialogBox extends HBox {
@@ -39,6 +40,7 @@ public class DialogBox extends HBox {
     /** Creates a right-aligned user message with the user's profile image. */
     public static DialogBox getUserDialog(String text, Image image) {
         DialogBox box = new DialogBox(text, image);
+        box.resizeProfilePicture(120);
         box.setAlignment(Pos.TOP_RIGHT);
         box.getStyleClass().add("user-dialog");
         return box;
@@ -54,5 +56,12 @@ public class DialogBox extends HBox {
         box.dialog.getStyleClass().add("reply-label");
         box.getStyleClass().add("genie-dialog");
         return box;
+    }
+
+    /** Enlarges a profile picture while keeping its circular crop aligned. */
+    private void resizeProfilePicture(double size) {
+        displayPicture.setFitWidth(size);
+        displayPicture.setFitHeight(size);
+        displayPicture.setClip(new Circle(size / 2, size / 2, size / 2));
     }
 }

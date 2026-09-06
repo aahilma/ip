@@ -21,7 +21,7 @@ public class MainWindow extends AnchorPane {
 
     private Genie genie;
     private final Image userImage = new Image(
-            MainWindow.class.getResourceAsStream("/images/pp.jpg"));
+            MainWindow.class.getResourceAsStream("/images/pp.png"));
     private final Image genieImage = new Image(
             MainWindow.class.getResourceAsStream("/images/genie.png"));
 

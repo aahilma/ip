@@ -1,11 +1,11 @@
 .label {
-    background: white;
+    background: secondary-color;
     -fx-background-color: background;
-    -fx-border-color: #d55e00 #009e73 #cc79a7 #0072b2;
+    -fx-border-color: accent-color highlight-color highlight-color accent-color;
     -fx-border-width: 2px;
     -fx-background-radius: 1em 1em 0 1em;
     -fx-border-radius: 1em 1em 0 1em;
-    -fx-text-fill: ladder(background, white 49%, black 50%);
+    -fx-text-fill: white;
     -fx-font: 20px "Arial";
 }
 
@@ -17,11 +17,29 @@
     -fx-alignment: top-left;
 }
 
+.user-dialog .label {
+    background: accent-color;
+    -fx-background-color: background;
+    -fx-text-fill: main-color;
+}
+
+.genie-dialog .label {
+    background: secondary-color;
+    -fx-background-color: background;
+    -fx-text-fill: white;
+}
+
 .reply-label {
     -fx-background-radius: 1em 1em 1em 0;
     -fx-border-radius: 1em 1em 1em 0;
 }
 
 #displayPicture {
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.5, 5, 5);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 8, 0.45, 3, 3);
+    -fx-border-color: accent-color;
+    -fx-border-width: 3px;
+}
+
+.profile-picture {
+    -fx-background-radius: 50%;
 }
