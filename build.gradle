@@ -19,6 +19,9 @@ checkstyle {
 }
 
 dependencies {
+    implementation 'org.openjfx:javafx-controls:25.0.1'
+    implementation 'org.openjfx:javafx-fxml:25.0.1'
+
     String jUnitVersion = '5.14.4'
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:${jUnitVersion}"

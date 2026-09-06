@@ -1,0 +1,55 @@
+package genie.ui;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+
+/** Controller for the main Genie chat window. */
+public class MainWindow extends AnchorPane {
+    @FXML
+    private ScrollPane scrollPane;
+    @FXML
+    private VBox dialogContainer;
+    @FXML
+    private TextField userInput;
+    @FXML
+    private Button sendButton;
+
+    private Genie genie;
+    private final Image userImage = new Image(
+            MainWindow.class.getResourceAsStream("/images/pp.jpg"));
+    private final Image genieImage = new Image(
+            MainWindow.class.getResourceAsStream("/images/genie.png"));
+
+    /** Keeps the latest dialog visible as new messages are added. */
+    @FXML
+    public void initialize() {
+        scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+    }
+
+    /** Injects the command-processing application instance. */
+    public void setGenie(Genie genie) {
+        this.genie = genie;
+        dialogContainer.getChildren().add(DialogBox.getGenieDialog(
+                "Hello! I'm Genie. What can I do for you?", genieImage));
+    }
+
+    /** Displays the user's command and Genie response. */
+    @FXML
+    private void handleUserInput() {
+        String input = userInput.getText().trim();
+        if (input.isEmpty()) {
+            return;
+        }
+
+        String response = genie.processCommand(input);
+        dialogContainer.getChildren().addAll(
+                DialogBox.getUserDialog(input, userImage),
+                DialogBox.getGenieDialog(response, genieImage));
+        userInput.clear();
+    }
+}

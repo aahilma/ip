@@ -1,2 +1,2 @@
-T | 0 | lift
 D | 0 | do dishes | 21/7/2026 1800
+T | 0 | eat
