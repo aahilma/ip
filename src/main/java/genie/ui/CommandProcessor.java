@@ -60,6 +60,8 @@ class CommandProcessor {
                     }
                 }
                 return count == 0 ? "No tasks matched your search." : result.toString();
+            } else if (commands[0].equalsIgnoreCase("edit")) {
+                return editTask(userInput);
             }
 
             if (commands[0].equalsIgnoreCase("todo")) {
@@ -87,5 +89,72 @@ class CommandProcessor {
         } catch (RuntimeException e) {
             return "OOPS!!! Please check the command and task number.";
         }
+    }
+
+    /**
+     * Updates one field of an existing task without changing its other fields.
+     *
+     * @param userInput complete edit command
+     * @return response text
+     */
+    private String editTask(String userInput) {
+        String[] parts = userInput.trim().split("\\s+", 4);
+        if (parts.length < 4) {
+            return "OOPS!!! Usage: edit <task number> <field> <new value>.";
+        }
+
+        int index;
+        try {
+            index = Integer.parseInt(parts[1]) - 1;
+        } catch (NumberFormatException e) {
+            return "OOPS!!! Please provide a valid task number.";
+        }
+
+        if (index < 0 || index >= tasks.size()) {
+            return "OOPS!!! Please provide a valid task number.";
+        }
+
+        Task task = tasks.get(index);
+        String field = parts[2].toLowerCase();
+        String value = parts[3].trim();
+
+        try {
+            switch (field) {
+                case "description":
+                    task.setDescription(value);
+                    break;
+                case "by":
+                    if (!(task instanceof Deadline)) {
+                        return "OOPS!!! The 'by' field can only be edited for deadlines.";
+                    }
+                    LocalDateTime deadline = LocalDateTime.parse(value, Genie.INPUT_FORMAT);
+                    Deadline deadlineTask = (Deadline) task;
+                    deadlineTask.setBy(deadline);
+                    break;
+                case "from":
+                    if (!(task instanceof Event)) {
+                        return "OOPS!!! The 'from' field can only be edited for events.";
+                    }
+                    LocalDateTime startTime = LocalDateTime.parse(value, Genie.INPUT_FORMAT);
+                    Event startEvent = (Event) task;
+                    startEvent.setFrom(startTime);
+                    break;
+                case "to":
+                    if (!(task instanceof Event)) {
+                        return "OOPS!!! The 'to' field can only be edited for events.";
+                    }
+                    LocalDateTime endTime = LocalDateTime.parse(value, Genie.INPUT_FORMAT);
+                    Event endEvent = (Event) task;
+                    endEvent.setTo(endTime);
+                    break;
+                default:
+                    return "OOPS!!! Supported fields are description, by, from, and to.";
+            }
+        } catch (DateTimeParseException e) {
+            return "OOPS!!! Please use the format: d/M/yyyy HHmm (e.g., 2/12/2019 1800)";
+        }
+
+        storage.save(tasks);
+        return "Got it. I've updated this task:\n" + task;
     }
 }
