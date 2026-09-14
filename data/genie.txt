@@ -1,2 +1,2 @@
-D | 0 | do dishes | 21/7/2026 1800
-T | 1 | eat
+D | 1 | do dishes | 21/7/2026 1800
+T | 0 | gym
