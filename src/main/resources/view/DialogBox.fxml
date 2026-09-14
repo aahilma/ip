@@ -20,7 +20,7 @@
             </padding>
         </Label>
         <ImageView fx:id="displayPicture" fitHeight="99.0" fitWidth="99.0"
-                   pickOnBounds="true" preserveRatio="true" styleClass="profile-picture">
+                   pickOnBounds="true" preserveRatio="true">
             <clip>
                 <Circle centerX="49.5" centerY="49.5" radius="49.5" />
             </clip>

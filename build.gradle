@@ -58,7 +58,3 @@ jar {
 shadowJar {
     archiveFileName = 'genie.jar'
 }
-
-run {
-    standardInput = System.in
-}

@@ -7,7 +7,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -41,7 +40,6 @@ public class DialogBox extends HBox {
     public static DialogBox getUserDialog(String text, Image image) {
         DialogBox box = new DialogBox(text, image);
         box.resizeProfilePicture(120);
-        box.setAlignment(Pos.TOP_RIGHT);
         box.getStyleClass().add("user-dialog");
         return box;
     }
@@ -52,7 +50,6 @@ public class DialogBox extends HBox {
         ObservableList<Node> children = FXCollections.observableArrayList(box.getChildren());
         Collections.reverse(children);
         box.getChildren().setAll(children);
-        box.setAlignment(Pos.TOP_LEFT);
         box.dialog.getStyleClass().add("reply-label");
         box.getStyleClass().add("genie-dialog");
         return box;

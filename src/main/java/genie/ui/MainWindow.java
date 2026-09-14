@@ -1,12 +1,13 @@
 package genie.ui;
 
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 /** Controller for the main Genie chat window. */
 public class MainWindow extends AnchorPane {
@@ -16,9 +17,6 @@ public class MainWindow extends AnchorPane {
     private VBox dialogContainer;
     @FXML
     private TextField userInput;
-    @FXML
-    private Button sendButton;
-
     private Genie genie;
     private final Image userImage = new Image(
             MainWindow.class.getResourceAsStream("/images/pp.png"));
@@ -51,5 +49,11 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getUserDialog(input, userImage),
                 DialogBox.getGenieDialog(response, genieImage));
         userInput.clear();
+
+        if (input.equalsIgnoreCase("bye")) {
+            PauseTransition pause = new PauseTransition(Duration.seconds(1));
+            pause.setOnFinished(event -> userInput.getScene().getWindow().hide());
+            pause.play();
+        }
     }
 }
