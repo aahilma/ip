@@ -39,7 +39,3 @@
     -fx-border-color: accent-color;
     -fx-border-width: 3px;
 }
-
-.profile-picture {
-    -fx-background-radius: 50%;
-}

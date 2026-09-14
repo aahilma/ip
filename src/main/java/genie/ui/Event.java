@@ -20,10 +20,6 @@ class Event extends Task {
         this.to = to;
     }
 
-    public LocalDateTime getFromDate() {
-        return this.from;
-    }
-
     @Override
     public String toFileFormat() {
         return "E | " + super.toFileFormat() + " | " + from.format(Genie.INPUT_FORMAT)
