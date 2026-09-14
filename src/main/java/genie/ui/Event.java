@@ -20,6 +20,16 @@ class Event extends Task {
         this.to = to;
     }
 
+    /** Updates the event start date and time. */
+    public void setFrom(LocalDateTime from) {
+        this.from = from;
+    }
+
+    /** Updates the event end date and time. */
+    public void setTo(LocalDateTime to) {
+        this.to = to;
+    }
+
     @Override
     public String toFileFormat() {
         return "E | " + super.toFileFormat() + " | " + from.format(Genie.INPUT_FORMAT)

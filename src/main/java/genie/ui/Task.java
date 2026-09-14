@@ -33,6 +33,11 @@ class Task {
         return this.description;
     }
 
+    /** Updates the task description. */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     /**
      * Returns the string representation of the task for saving to a file.
      *

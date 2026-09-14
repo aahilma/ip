@@ -17,6 +17,11 @@ class Deadline extends Task {
         this.by = by;
     }
 
+    /** Updates the deadline date and time. */
+    public void setBy(LocalDateTime by) {
+        this.by = by;
+    }
+
     @Override
     public String toFileFormat() {
         return "D | " + super.toFileFormat() + " | " + by.format(Genie.INPUT_FORMAT);
