@@ -6,6 +6,11 @@
     -fx-background-color: main-color;
 }
 
+.input-bar {
+    -fx-background-color: main-color;
+    -fx-padding: 8px 12px 12px 12px;
+}
+
 .text-field {
     -fx-background-color: secondary-color;
     -fx-background-radius: 10px 0 0 10px;
@@ -15,6 +20,7 @@
     -fx-text-fill: white;
     -fx-prompt-text-fill: #d8d4e7;
     -fx-font: 20px "Arial";
+    -fx-min-height: 48px;
 }
 
 .button {
@@ -22,6 +28,7 @@
     -fx-text-fill: main-color;
     -fx-background-radius: 0 10px 10px 0;
     -fx-font: italic bold 16px "Arial";
+    -fx-min-height: 48px;
 }
 
 .button:hover {

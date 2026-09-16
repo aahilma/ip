@@ -12,12 +12,12 @@
 
 .user-dialog {
     -fx-alignment: center-right;
-    -fx-padding: 6px 12px 6px 48px;
+    -fx-padding: 6px 12px 6px 12px;
 }
 
 .genie-dialog {
     -fx-alignment: center-left;
-    -fx-padding: 6px 48px 6px 12px;
+    -fx-padding: 6px 12px 6px 12px;
 }
 
 .user-dialog .label {
@@ -34,6 +34,7 @@
     -fx-background-color: background;
     -fx-text-fill: white;
     -fx-border-color: accent-color;
+    -fx-max-width: 640px;
     -fx-background-radius: 1em 1em 1em 0;
     -fx-border-radius: 1em 1em 1em 0;
 }
