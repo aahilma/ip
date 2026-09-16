@@ -45,9 +45,12 @@ public class MainWindow extends AnchorPane {
         }
 
         String response = genie.processCommand(input);
+        DialogBox genieDialog = response.startsWith("OOPS!!!")
+                ? DialogBox.getErrorDialog(response, genieImage)
+                : DialogBox.getGenieDialog(response, genieImage);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getGenieDialog(response, genieImage));
+                genieDialog);
         userInput.clear();
 
         if (input.equalsIgnoreCase("bye")) {
