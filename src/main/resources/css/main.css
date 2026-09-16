@@ -13,6 +13,38 @@
     -fx-padding: 8px 12px 12px 12px;
 }
 
+.app-header {
+    -fx-background-color: main-color;
+    -fx-border-color: accent-color;
+    -fx-border-width: 0 0 2px 0;
+}
+
+.header-avatar {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 6, 0.35, 2, 2);
+}
+
+.header-title {
+    -fx-text-fill: white;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.header-subtitle {
+    -fx-text-fill: #d8d4e7;
+    -fx-font-size: 12px;
+}
+
+.header-status-dot {
+    -fx-text-fill: highlight-color;
+    -fx-font-size: 12px;
+}
+
+.header-status {
+    -fx-text-fill: accent-color;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
 .text-field {
     -fx-background-color: secondary-color;
     -fx-background-radius: 10px 0 0 10px;
