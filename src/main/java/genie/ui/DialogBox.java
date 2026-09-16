@@ -16,6 +16,8 @@ import javafx.scene.shape.Circle;
 
 /** A reusable chat bubble for a user or Genie message. */
 public class DialogBox extends HBox {
+    private static final double PROFILE_PICTURE_SIZE = 64.0;
+
     @FXML
     private Label dialog;
     @FXML
@@ -44,7 +46,7 @@ public class DialogBox extends HBox {
     /** Creates a right-aligned user message with the user's profile image. */
     public static DialogBox getUserDialog(String text, Image image) {
         DialogBox box = new DialogBox(text, image);
-        box.resizeProfilePicture(120);
+        box.resizeProfilePicture(PROFILE_PICTURE_SIZE);
         box.getStyleClass().add("user-dialog");
         return box;
     }
@@ -52,11 +54,19 @@ public class DialogBox extends HBox {
     /** Creates a left-aligned Genie message with the bot's profile image. */
     public static DialogBox getGenieDialog(String text, Image image) {
         DialogBox box = new DialogBox(text, image);
+        box.resizeProfilePicture(PROFILE_PICTURE_SIZE);
         ObservableList<Node> children = FXCollections.observableArrayList(box.getChildren());
         Collections.reverse(children);
         box.getChildren().setAll(children);
         box.dialog.getStyleClass().add("reply-label");
         box.getStyleClass().add("genie-dialog");
+        return box;
+    }
+
+    /** Creates a left-aligned Genie error message with the bot's profile image. */
+    public static DialogBox getErrorDialog(String text, Image image) {
+        DialogBox box = getGenieDialog(text, image);
+        box.getStyleClass().add("error-dialog");
         return box;
     }
 

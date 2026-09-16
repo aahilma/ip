@@ -1,37 +1,52 @@
 .label {
-    background: secondary-color;
-    -fx-background-color: background;
-    -fx-border-color: accent-color highlight-color highlight-color accent-color;
+    -fx-background-color: secondary-color;
+    -fx-border-color: accent-color;
     -fx-border-width: 2px;
     -fx-background-radius: 1em 1em 0 1em;
     -fx-border-radius: 1em 1em 0 1em;
     -fx-text-fill: white;
-    -fx-font: 20px "Arial";
+    -fx-font-family: "Arial";
+    -fx-font-size: 16px;
+    -fx-line-spacing: 2px;
 }
 
 .user-dialog {
-    -fx-alignment: top-right;
+    -fx-alignment: center-right;
+    -fx-padding: 6px 12px 6px 12px;
 }
 
 .genie-dialog {
-    -fx-alignment: top-left;
+    -fx-alignment: center-left;
+    -fx-padding: 6px 12px 6px 12px;
 }
 
 .user-dialog .label {
-    background: accent-color;
-    -fx-background-color: background;
+    -fx-background-color: accent-color;
     -fx-text-fill: main-color;
+    -fx-border-color: highlight-color;
+    -fx-background-radius: 1em 1em 0 1em;
+    -fx-border-radius: 1em 1em 0 1em;
 }
 
 .genie-dialog .label {
-    background: secondary-color;
-    -fx-background-color: background;
+    -fx-background-color: secondary-color;
     -fx-text-fill: white;
+    -fx-border-color: accent-color;
+    -fx-max-width: 640px;
+    -fx-background-radius: 1em 1em 1em 0;
+    -fx-border-radius: 1em 1em 1em 0;
 }
 
 .reply-label {
     -fx-background-radius: 1em 1em 1em 0;
     -fx-border-radius: 1em 1em 1em 0;
+}
+
+.error-dialog .label {
+    -fx-background-color: highlight-color;
+    -fx-border-color: highlight-color;
+    -fx-text-fill: main-color;
+    -fx-font-weight: bold;
 }
 
 #displayPicture {

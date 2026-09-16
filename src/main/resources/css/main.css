@@ -3,7 +3,14 @@
     secondary-color: #48426d;
     accent-color: #f0c38e;
     highlight-color: #f1aa9b;
+    conversation-color: #f7f3ee;
+    -fx-font-family: "Arial";
     -fx-background-color: main-color;
+}
+
+.input-bar {
+    -fx-background-color: main-color;
+    -fx-padding: 8px 12px 12px 12px;
 }
 
 .text-field {
@@ -14,38 +21,50 @@
     -fx-border-radius: 10px 0 0 10px;
     -fx-text-fill: white;
     -fx-prompt-text-fill: #d8d4e7;
-    -fx-font: 20px "Arial";
+    -fx-font-size: 16px;
+    -fx-min-height: 48px;
+    -fx-padding: 0 14px;
+    -fx-focus-color: highlight-color;
+    -fx-faint-focus-color: transparent;
+}
+
+.text-field:focused {
+    -fx-border-color: highlight-color;
 }
 
 .button {
     -fx-background-color: accent-color;
     -fx-text-fill: main-color;
     -fx-background-radius: 0 10px 10px 0;
-    -fx-font: italic bold 16px "Arial";
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-min-height: 48px;
+    -fx-min-width: 92px;
+    -fx-pref-width: 92px;
+    -fx-max-width: 92px;
 }
 
 .button:hover {
     -fx-background-color: highlight-color;
-    -fx-font-size: 18px;
 }
 
 .button:pressed {
-    -fx-background-color: accent-color;
-    -fx-font-size: 20px;
+    -fx-background-color: secondary-color;
+    -fx-text-fill: white;
 }
 
 .scroll-pane,
 .scroll-pane .viewport {
-    -fx-background-color: transparent;
+    -fx-background-color: conversation-color;
 }
 
 .scroll-bar {
     -fx-font-size: 10px;
-    -fx-background-color: secondary-color;
+    -fx-background-color: conversation-color;
 }
 
 .scroll-bar .thumb {
-    -fx-background-color: highlight-color;
+    -fx-background-color: secondary-color;
     -fx-background-radius: 1em;
 }
 
