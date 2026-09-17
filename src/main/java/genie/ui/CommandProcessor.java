@@ -17,6 +17,7 @@ class CommandProcessor {
     CommandProcessor(String filePath) {
         storage = new Storage(filePath);
         tasks = storage.load();
+        assert tasks != null : "Storage must return a task list";
     }
 
     /**

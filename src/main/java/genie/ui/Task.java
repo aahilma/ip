@@ -8,9 +8,10 @@ class Task {
     /**
      * Initializes a new Task.
      *
-     * @param description Description of the task.
+    * @param description Description of the task.
      */
     public Task(String description) {
+        assert description != null : "Task description must not be null";
         this.description = description;
         this.isDone = false;
     }
@@ -35,6 +36,7 @@ class Task {
 
     /** Updates the task description. */
     public void setDescription(String description) {
+        assert description != null : "Task description must not be null";
         this.description = description;
     }
 

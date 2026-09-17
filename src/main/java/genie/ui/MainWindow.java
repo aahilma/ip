@@ -31,6 +31,7 @@ public class MainWindow extends AnchorPane {
 
     /** Injects the command-processing application instance. */
     public void setGenie(Genie genie) {
+        assert genie != null : "Genie instance must be provided";
         this.genie = genie;
         dialogContainer.getChildren().add(DialogBox.getGenieDialog(
                 "Hello! I'm Genie. What can I do for you?", genieImage));
@@ -39,6 +40,7 @@ public class MainWindow extends AnchorPane {
     /** Displays the user's command and Genie response. */
     @FXML
     private void handleUserInput() {
+        assert genie != null : "Genie instance must be initialized before input handling";
         String input = userInput.getText().trim();
         if (input.isEmpty()) {
             return;

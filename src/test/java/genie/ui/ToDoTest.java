@@ -34,4 +34,51 @@ public class ToDoTest {
 
         assertEquals("[T][ ] read book", todo.toString());
     }
+
+    @Test
+    public void toString_completedToDo_validDescription() {
+        ToDo todo = new ToDo("read book");
+        todo.markAsDone();
+
+        assertEquals("[T][X] read book", todo.toString());
+    }
+
+    @Test
+    public void toString_undoneToDo_validDescription() {
+        ToDo todo = new ToDo("read book");
+        todo.markAsDone();
+        todo.markAsUndone();
+
+        assertEquals("[T][ ] read book", todo.toString());
+    }
+
+    @Test
+    public void toFileFormat_incompleteToDo_validDescription() {
+        ToDo todo = new ToDo("read book");
+
+        assertEquals("T | 0 | read book", todo.toFileFormat());
+    }
+
+    @Test
+    public void toFileFormat_completedToDo_validDescription() {
+        ToDo todo = new ToDo("read book");
+        todo.markAsDone();
+
+        assertEquals("T | 1 | read book", todo.toFileFormat());
+    }
+
+    @Test
+    public void getName_createdToDo_returnsDescription() {
+        ToDo todo = new ToDo("read book");
+
+        assertEquals("read book", todo.getName());
+    }
+
+    @Test
+    public void setDescription_createdToDo_updatesDescription() {
+        ToDo todo = new ToDo("read book");
+        todo.setDescription("write notes");
+
+        assertEquals("[T][ ] write notes", todo.toString());
+    }
 }

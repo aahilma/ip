@@ -70,9 +70,10 @@ class Storage {
     /**
      * Saves the current list of tasks to the local file system.
      *
-     * @param tasks List of tasks to be saved.
+    * @param tasks List of tasks to be saved.
      */
     public void save(ArrayList<Task> tasks) {
+        assert tasks != null : "Task list must not be null";
         try {
             File dir = new File("./data");
             if (!dir.exists()) {
@@ -81,6 +82,7 @@ class Storage {
 
             FileWriter fw = new FileWriter(filePath);
             for (Task task : tasks) {
+                assert task != null : "Task list must not contain null tasks";
                 fw.write(task.toFileFormat() + System.lineSeparator());
             }
             fw.close();
