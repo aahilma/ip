@@ -16,17 +16,21 @@ class Event extends Task {
      */
     public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
+        assert from != null : "Event start date and time must not be null";
+        assert to != null : "Event end date and time must not be null";
         this.from = from;
         this.to = to;
     }
 
     /** Updates the event start date and time. */
     public void setFrom(LocalDateTime from) {
+        assert from != null : "Event start date and time must not be null";
         this.from = from;
     }
 
     /** Updates the event end date and time. */
     public void setTo(LocalDateTime to) {
+        assert to != null : "Event end date and time must not be null";
         this.to = to;
     }
 
