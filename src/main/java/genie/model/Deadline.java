@@ -1,9 +1,11 @@
-package genie.ui;
+package genie.model;
 
 import java.time.LocalDateTime;
 
+import genie.util.DateFormats;
+
 /** Represents a task that needs to be done before a specific date or time. */
-class Deadline extends Task {
+public class Deadline extends Task {
     protected LocalDateTime by;
 
     /**
@@ -24,13 +26,15 @@ class Deadline extends Task {
         this.by = by;
     }
 
+    /** Returns the deadline in the format used for file storage. */
     @Override
     public String toFileFormat() {
-        return "D | " + super.toFileFormat() + " | " + by.format(Genie.INPUT_FORMAT);
+        return "D | " + super.toFileFormat() + " | " + by.format(DateFormats.INPUT_FORMAT);
     }
 
+    /** Returns the deadline with its formatted due date. */
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + by.format(Genie.OUTPUT_FORMAT) + ")";
+        return "[D]" + super.toString() + " (by: " + by.format(DateFormats.OUTPUT_FORMAT) + ")";
     }
 }

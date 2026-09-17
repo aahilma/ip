@@ -1,14 +1,22 @@
-package genie.ui;
+package genie.storage;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import genie.model.Deadline;
+import genie.model.Event;
+import genie.model.Task;
+import genie.model.ToDo;
+import genie.util.DateFormats;
+
 /** Deals with loading tasks from and saving tasks to a file. */
-class Storage {
+public class Storage {
     private final String filePath;
 
     /**
@@ -17,6 +25,7 @@ class Storage {
      * @param filePath Path of the file where tasks are saved.
      */
     public Storage(String filePath) {
+        assert filePath != null : "Storage file path must not be null";
         this.filePath = filePath;
     }
 
@@ -27,14 +36,13 @@ class Storage {
      */
     public ArrayList<Task> load() {
         ArrayList<Task> tasks = new ArrayList<>();
-        try {
-            File f = new File(filePath);
-            if (!f.exists()) {
-                return tasks;
-            }
+        File file = new File(filePath);
+        if (!file.exists()) {
+            return tasks;
+        }
 
-            Scanner fileScanner = new Scanner(f);
-            while (fileScanner.hasNext()) {
+        try (Scanner fileScanner = new Scanner(file)) {
+            while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
                 String[] parts = line.split(" \\| ");
                 String type = parts[0];
@@ -45,11 +53,11 @@ class Storage {
                 if (type.equals("T")) {
                     task = new ToDo(description);
                 } else if (type.equals("D")) {
-                    LocalDateTime by = LocalDateTime.parse(parts[3], Genie.INPUT_FORMAT);
+                    LocalDateTime by = LocalDateTime.parse(parts[3], DateFormats.INPUT_FORMAT);
                     task = new Deadline(description, by);
                 } else if (type.equals("E")) {
-                    LocalDateTime from = LocalDateTime.parse(parts[3], Genie.INPUT_FORMAT);
-                    LocalDateTime to = LocalDateTime.parse(parts[4], Genie.INPUT_FORMAT);
+                    LocalDateTime from = LocalDateTime.parse(parts[3], DateFormats.INPUT_FORMAT);
+                    LocalDateTime to = LocalDateTime.parse(parts[4], DateFormats.INPUT_FORMAT);
                     task = new Event(description, from, to);
                 }
 
@@ -60,8 +68,7 @@ class Storage {
                     tasks.add(task);
                 }
             }
-            fileScanner.close();
-        } catch (Exception e) {
+        } catch (FileNotFoundException | DateTimeParseException | IndexOutOfBoundsException e) {
             System.out.println("     Error loading file: " + e.getMessage());
         }
         return tasks;
@@ -70,7 +77,7 @@ class Storage {
     /**
      * Saves the current list of tasks to the local file system.
      *
-    * @param tasks List of tasks to be saved.
+     * @param tasks List of tasks to be saved.
      */
     public void save(ArrayList<Task> tasks) {
         assert tasks != null : "Task list must not be null";
@@ -80,12 +87,12 @@ class Storage {
                 dir.mkdirs();
             }
 
-            FileWriter fw = new FileWriter(filePath);
-            for (Task task : tasks) {
-                assert task != null : "Task list must not contain null tasks";
-                fw.write(task.toFileFormat() + System.lineSeparator());
+            try (FileWriter writer = new FileWriter(filePath)) {
+                for (Task task : tasks) {
+                    assert task != null : "Task list must not contain null tasks";
+                    writer.write(task.toFileFormat() + System.lineSeparator());
+                }
             }
-            fw.close();
         } catch (IOException e) {
             System.out.println("     Error saving tasks: " + e.getMessage());
         }

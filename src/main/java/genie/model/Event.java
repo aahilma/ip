@@ -1,9 +1,11 @@
-package genie.ui;
+package genie.model;
 
 import java.time.LocalDateTime;
 
+import genie.util.DateFormats;
+
 /** Represents a task that starts and ends at specific times. */
-class Event extends Task {
+public class Event extends Task {
     protected LocalDateTime from;
     protected LocalDateTime to;
 
@@ -34,15 +36,17 @@ class Event extends Task {
         this.to = to;
     }
 
+    /** Returns the event in the format used for file storage. */
     @Override
     public String toFileFormat() {
-        return "E | " + super.toFileFormat() + " | " + from.format(Genie.INPUT_FORMAT)
-                + " | " + to.format(Genie.INPUT_FORMAT);
+        return "E | " + super.toFileFormat() + " | " + from.format(DateFormats.INPUT_FORMAT)
+                + " | " + to.format(DateFormats.INPUT_FORMAT);
     }
 
+    /** Returns the event with its formatted start and end times. */
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + from.format(Genie.OUTPUT_FORMAT)
-                + " to: " + to.format(Genie.OUTPUT_FORMAT) + ")";
+        return "[E]" + super.toString() + " (from: " + from.format(DateFormats.OUTPUT_FORMAT)
+                + " to: " + to.format(DateFormats.OUTPUT_FORMAT) + ")";
     }
 }

@@ -1,7 +1,7 @@
-package genie.ui;
+package genie.model;
 
 /** Represents a task without any specific date or time attached. */
-class ToDo extends Task {
+public class ToDo extends Task {
 
     /**
      * Initializes a new ToDo task.
@@ -12,11 +12,13 @@ class ToDo extends Task {
         super(description);
     }
 
+    /** Returns the todo in the format used for file storage. */
     @Override
     public String toFileFormat() {
         return "T | " + super.toFileFormat();
     }
 
+    /** Returns the todo with its type and completion status. */
     @Override
     public String toString() {
         return "[T]" + super.toString();

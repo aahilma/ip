@@ -1,14 +1,14 @@
-package genie.ui;
+package genie.model;
 
 /** Represents a generic task with a description and completion status. */
-class Task {
+public class Task {
     protected String description;
     protected boolean isDone;
 
     /**
      * Initializes a new Task.
      *
-    * @param description Description of the task.
+     * @param description Description of the task.
      */
     public Task(String description) {
         assert description != null : "Task description must not be null";
@@ -26,10 +26,12 @@ class Task {
         this.isDone = false;
     }
 
+    /** Returns the icon representing the task's completion status. */
     public String getStatusIcon() {
         return (isDone ? "[X]" : "[ ]");
     }
 
+    /** Returns the task description. */
     public String getName() {
         return this.description;
     }
@@ -49,6 +51,7 @@ class Task {
         return (isDone ? "1" : "0") + " | " + description;
     }
 
+    /** Returns the task description with its completion status. */
     @Override
     public String toString() {
         return getStatusIcon() + " " + description;

@@ -1,25 +1,27 @@
 package genie.ui;
 
-
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 
+import genie.logic.CommandProcessor;
+import genie.util.DateFormats;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-
 /**
  * Represents the main entry point for the Genie chatbot.
- * Handles user interactions, task management, and file reading/writing.
+ * Starts the JavaFX interface and delegates command processing.
  */
-
 public class Genie extends Application {
+    /** Path of the file used to persist Genie tasks. */
     public static final String FILE_PATH = "./data/genie.txt";
-    public static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
-    public static final DateTimeFormatter OUTPUT_FORMAT = DateTimeFormatter.ofPattern("MMM d yyyy, h:mm a");
+    /** Format used to parse task dates and times. */
+    public static final DateTimeFormatter INPUT_FORMAT = DateFormats.INPUT_FORMAT;
+    /** Format used to display task dates and times. */
+    public static final DateTimeFormatter OUTPUT_FORMAT = DateFormats.OUTPUT_FORMAT;
     private final CommandProcessor commandProcessor = new CommandProcessor(FILE_PATH);
 
     /** Starts the JavaFX desktop application. */

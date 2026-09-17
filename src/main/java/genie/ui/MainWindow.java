@@ -1,6 +1,7 @@
 package genie.ui;
 
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -22,12 +23,6 @@ public class MainWindow extends AnchorPane {
             MainWindow.class.getResourceAsStream("/images/pp.png"));
     private final Image genieImage = new Image(
             MainWindow.class.getResourceAsStream("/images/genie.png"));
-
-    /** Keeps the latest dialog visible as new messages are added. */
-    @FXML
-    public void initialize() {
-        scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
-    }
 
     /** Injects the command-processing application instance. */
     public void setGenie(Genie genie) {
@@ -54,6 +49,7 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getUserDialog(input, userImage),
                 genieDialog);
         userInput.clear();
+        Platform.runLater(() -> scrollPane.setVvalue(scrollPane.getVmax()));
 
         if (input.equalsIgnoreCase("bye")) {
             PauseTransition pause = new PauseTransition(Duration.seconds(1));
