@@ -14,10 +14,11 @@ spot.
 - Java Development Kit (JDK) 25
 - A desktop environment that supports JavaFX
 
-From the project directory, launch Genie with Gradle:
+Download `genie.jar` from the project's GitHub Releases page. Place it in
+your preferred folder and launch Genie with:
 
-```bash
-./gradlew run
+```text
+java -jar genie.jar
 ```
 
 The application opens with a greeting from Genie. Type a command into the
