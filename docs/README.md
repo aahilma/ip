@@ -4,7 +4,7 @@
 > keep track of todos, deadlines, and events in one place.
 
 Genie saves your task list automatically, displays the conversation in a
-chat-style JavaFX interface, and highlights error messages so they are easy to
+chat style JavaFX interface, and highlights error messages so they are easy to
 spot.
 
 ## Getting started
