@@ -7,6 +7,10 @@ Genie saves your task list automatically, displays the conversation in a
 chat style JavaFX interface, and highlights error messages so they are easy to
 spot.
 
+## Showcase
+
+![Genie user interface](Ui.png)
+
 ## Getting started
 
 ### Requirements
