@@ -84,6 +84,10 @@ d/M/yyyy HHmm
 For example, `30/9/2026 1800` means **30 September 2026 at 6:00 PM**.
 The time uses the 24-hour clock and does not contain a colon.
 
+Deadlines and events cannot be scheduled in the past. An event's start
+time must also be earlier than its end time. Calendar dates must exist;
+for example, `31/9/2026` is not valid.
+
 ## Viewing and managing tasks
 
 ### View the task list

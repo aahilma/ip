@@ -26,6 +26,11 @@ public class Task {
         this.isDone = false;
     }
 
+    /** Returns whether the task is completed. */
+    public boolean isDone() {
+        return isDone;
+    }
+
     /** Returns the icon representing the task's completion status. */
     public String getStatusIcon() {
         return (isDone ? "[X]" : "[ ]");

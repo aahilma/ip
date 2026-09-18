@@ -36,6 +36,16 @@ public class Event extends Task {
         this.to = to;
     }
 
+    /** Returns the event start date and time. */
+    public LocalDateTime getFrom() {
+        return from;
+    }
+
+    /** Returns the event end date and time. */
+    public LocalDateTime getTo() {
+        return to;
+    }
+
     /** Returns the event in the format used for file storage. */
     @Override
     public String toFileFormat() {

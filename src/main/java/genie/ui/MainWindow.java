@@ -49,12 +49,20 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getUserDialog(input, userImage),
                 genieDialog);
         userInput.clear();
-        Platform.runLater(() -> scrollPane.setVvalue(scrollPane.getVmax()));
+        scrollToLatestMessage();
 
         if (input.equalsIgnoreCase("bye")) {
             PauseTransition pause = new PauseTransition(Duration.seconds(1));
             pause.setOnFinished(event -> userInput.getScene().getWindow().hide());
             pause.play();
         }
+    }
+
+    /** Scrolls to the newest message after JavaFX lays out the new dialogs. */
+    private void scrollToLatestMessage() {
+        Platform.runLater(() -> {
+            scrollPane.setVvalue(1.0);
+            Platform.runLater(() -> scrollPane.setVvalue(1.0));
+        });
     }
 }
